@@ -1,0 +1,236 @@
+
+
+/**
+ * Value formats
+ */
+[class*='snippy--bit-format'] {
+    color:#fff;
+    padding:.25em .5em;
+}
+
+[class*='snippy--bit-format'] + .snippy--bit-type-resource {
+    margin-left:.5em;
+}
+
+.snippy--bit-format-html {
+    background-color:#28aae1;
+}
+
+.snippy--bit-format-css {
+    background-color:#f16528;
+}
+
+.snippy--bit-format-js {
+    color:#000;
+    background-color:#feda3e;
+}
+
+
+
+/**
+ * Resource
+ */
+.snippy--bit-type-resource {
+    color:#555;
+    background-color:#eee;
+    padding:.25em .5em;
+}
+
+
+
+
+
+/**
+ * Snippy file field
+ */
+.snippy--bit-resource-original {
+    font-style:italic;
+}
+
+
+/**
+ * Snippy type toggle
+ */
+.snippy--bit-type-toggle ul {
+    margin:0;
+}
+
+.snippy--bit-type-toggle li {
+    display:inline-block;
+    margin-right:1em;
+    margin-bottom:0;
+}
+
+.snippy--bit-type-toggle legend {
+    display:none;
+}
+
+
+
+
+/**
+ * Snippy placeholders list
+ */
+.snippy--bit-placeholders {
+    font-size:1em;
+    margin:0;
+}
+
+.snippy--bit-placeholders:not(:empty) {
+    margin-bottom:1em;
+}
+
+.snippy--bit-placeholders:empty::after {
+    content:attr(data-empty);
+}
+
+.snippy--bit-placeholders li {
+    display:inline-block;
+    margin-right:.5em;
+    margin-bottom:.5em;
+    border:1px solid #ddd;
+    max-width:15em;
+    vertical-align: top;
+}
+
+.snippy--bit-placeholder-name {
+    display:block;
+    font-family:'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+    font-size: 12px;
+    background: #ebebeb;
+    padding:0 .5em;
+    line-height: 1.75;
+}
+
+.snippy--bit-placeholder-default {
+    display:block;
+    padding:.25em .5em;
+    word-break: break-all;
+    font-size: .875em;
+    border-top: 1px solid #ddd;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+}
+
+.snippy--bit-placeholder-default:empty {
+    display:none;
+}
+
+
+
+/**
+ * Bit table
+ */
+.snippy--bit-table {
+    border-spacing:0;
+}
+
+.snippy--bit-table label {
+    padding:.75em .5em .75em 0;
+}
+
+.snippy--bit-table tbody tr th label {
+    margin:0 !important;
+}
+
+.snippy--bit-table th,
+.snippy--bit-table td {
+    padding:0;
+    font-weight:normal;
+    border-bottom:1px solid #ddd;
+}
+
+.snippy--bit-table th {
+    padding-left:.5em;
+}
+
+.snippy--bit-table .snippy--bit-type-resource,
+.snippy--bit-table [class*="snippy--bit-format"] {
+    font-size:.75em;
+}
+
+
+
+/**
+ * Placeholder info panel toggle
+ */
+#snippy--bit-placeholder-info {
+    display:none;
+}
+
+#snippy--bit-placeholder-info:target {
+    display:block;
+}
+
+
+
+/**
+ * Bit editor
+ */
+#snippy--bit-editor {
+    position:relative;
+    width:95%;
+    border: 1px solid #ddd;
+    box-shadow:inset 0 1px 2px rgba(0,0,0,.07);
+}
+
+
+
+
+/**
+ * MCE Shortcode Popup
+ */
+#snippy--mce-shortcode-popup {
+    position:absolute;
+    background:#fff;
+    z-index:99999;
+    box-shadow:0 0.06125em 0.25em rgba(0, 0, 0, 0.3);
+    border-radius:.5em;
+    margin-top:2em;
+    width:10em;
+    margin-left:-5em;
+}
+
+
+#snippy--mce-shortcode-popup::before {
+    content:'';
+    position:absolute;
+    left:50%;
+    margin-left: -.5em;
+    top:-.5em;
+    width:1em;
+    height:1em;
+    background-color:inherit;
+    transform:rotateZ(45deg);
+    box-shadow:-0.125em -0.125em 0.25em rgba(0,0,0,.2);
+}
+
+#snippy--mce-shortcode-popup ul {
+    margin:0;
+}
+
+#snippy--mce-shortcode-popup li {
+    margin:0;
+}
+
+#snippy--mce-shortcode-popup li+li {
+    margin-bottom:.25em;
+}
+
+#snippy--mce-shortcode-popup a {
+    display:block;
+    padding: 0 .75em;
+    line-height: 2.5;
+    text-decoration: none;
+}
+
+#snippy--mce-shortcode-popup a::before {
+    content:'[';
+}
+
+#snippy--mce-shortcode-popup a::after {
+    content:']';
+}
+
+#snippy--mce-shortcode-popup a:hover {
+    text-decoration:underline;
+}

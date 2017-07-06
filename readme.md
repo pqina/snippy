@@ -1,0 +1,2 @@
+# Snippy WordPress Shortcode Builder
+
