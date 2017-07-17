@@ -276,8 +276,8 @@ class Bits_View {
 
         ?>
 
-        <script src="<?php echo \plugin_dir_url( __FILE__ ) ?>editor/ace.js"></script>
-        <script src="<?php echo \plugin_dir_url( __FILE__ ) ?>editor/theme-chrome.js" type="text/javascript" charset="utf-8"></script>
+        <script src="<?php echo \plugin_dir_url( __FILE__ ) ?>../admin/js/ace/ace.js"></script>
+        <script src="<?php echo \plugin_dir_url( __FILE__ ) ?>../admin/js/ace/theme-chrome.js" type="text/javascript" charset="utf-8"></script>
 
         <input type="hidden" name="previous_value" value="<?php echo \esc_attr(html_entity_decode($item['value'])) ?>">
 

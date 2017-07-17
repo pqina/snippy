@@ -1,26 +1,61 @@
 <?php
 /**
 * Plugin Name: Snippy
-* Plugin URI: http://pqina.nl/snippy
-* Description: Snippy, super flexible shortcodes
+* Plugin URI: https://pqina.nl/snippy
+* Description: Snippy, create your own super flexible shortcodes
 * Version: 1.0.0
 * Author: PQINA
-* Author URI: http://pqina.nl
+* Author URI: https://pqina.nl
 * License: GPL2
 * License URI: https://www.gnu.org/licenses/gpl-2.0.html
 * Text Domain: snippy
-*/
+
+{Plugin Name} is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+any later version.
+
+{Plugin Name} is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with {Plugin Name}. If not, see {URI to Plugin License}.
+ */
+
 namespace snippy;
 
-// Get dependencies
-require('inc/db.php');
-require('inc/list.php');
-require('inc/utils.php');
 
-// Get views
-require('view/tiny.php');
-require('view/bits.php');
-require('view/shortcodes.php');
+function uninstall() {
+
+    echo 'uninstall';
+
+    error_log("uninstall uninstall uninstall uninstall", 0);
+
+    if (!defined('WP_UNINSTALL_PLUGIN')) {
+        die;
+    }
+
+    error_log("drop the tables", 0);
+
+    Data::drop_db();
+
+}
+
+// Get dependencies
+require_once('includes/db.php');
+require_once('includes/utils.php');
+
+
+// Only required for admin
+if ( is_admin() ) {
+    require_once('includes/list.php');
+    require_once('includes/tiny.php');
+    require_once('includes/bits.php');
+    require_once('includes/shortcodes.php');
+}
+
 
 // Class
 class Snippy {
@@ -42,6 +77,8 @@ class Snippy {
     private function __construct() {
 
         \register_activation_hook( __FILE__, array( $this, 'install' ) );
+
+        \register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 
         \add_action( 'plugins_loaded', array($this, 'update' ) );
 
@@ -66,11 +103,19 @@ class Snippy {
         else {
             $this->shortcodes();
         }
+
     }
 
     public function install() {
 
         Data::setup_db();
+
+    }
+
+    public function deactivate() {
+
+        // flush cache/temp
+        // flush permalinks
 
     }
 
@@ -132,8 +177,8 @@ class Snippy {
 
     public function register_admin_scripts() {
 
-        wp_enqueue_style( 'snippy-admin-styles', plugin_dir_url( __FILE__ ) . 'style.css', array(), Snippy::$version );
-        wp_enqueue_script( 'snippy-admin-scripts', plugin_dir_url( __FILE__ ) . 'script.js', array(), Snippy::$version, true );
+        wp_enqueue_style( 'snippy-admin-styles', plugin_dir_url( __FILE__ ) . 'admin/css/style.css', array(), Snippy::$version );
+        wp_enqueue_script( 'snippy-admin-scripts', plugin_dir_url( __FILE__ ) . 'admin/js/script.js', array(), Snippy::$version, true );
 
     }
 

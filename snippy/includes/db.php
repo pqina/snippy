@@ -89,6 +89,22 @@ class Data {
         }
     }
 
+    static public function drop_db() {
+        global $wpdb;
+
+        \delete_option('snippy_db_version');
+
+        $table_name = Data::get_table_name('shortcodes');
+        $wpdb->query("DROP TABLE IF EXISTS {$table_name}");
+
+        $table_name = Data::get_table_name('bits');
+        $wpdb->query("DROP TABLE IF EXISTS {$table_name}");
+
+        $table_name = Data::get_table_name('shortcode_bits');
+        $wpdb->query("DROP TABLE IF EXISTS {$table_name}");
+
+    }
+
     static public function delete_entries($table, $ids) {
         $ids = isset($ids) ? $ids : array();
         if (is_array($ids)) $ids = implode(',', $ids);

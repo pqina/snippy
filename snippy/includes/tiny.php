@@ -20,7 +20,7 @@ class Tiny {
     }
 
     public static function handle_mce_plugin($plugin_array) {
-        $plugin_array['snippy'] = plugin_dir_url( __FILE__ ) . 'mce/index.js';
+        $plugin_array['snippy'] = plugin_dir_url( __FILE__ ) . '../admin/js/mce/index.js';
         return $plugin_array;
     }
 
