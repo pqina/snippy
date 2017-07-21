@@ -13,35 +13,33 @@ Makes it easy to create your own custom shortcodes.
 
 == Description ==
 
-Use Snippy to quickly create your own custom Shortcodes.
+Use Snippy to quickly create your own custom shortcodes.
 
-A Snippy Shortcode consists of bits. Each bit is either a **Stylesheet**, a **Script** or a piece of **HTML**, **CSS** or **JavaScript**.
+A Snippy shortcode is built by combining bits. A bit can be a file, like a **Stylesheet** or a **Script**, or a piece of code, like **HTML**, **CSS** or **JavaScript**.
 
-The HTML, CSS and JavaScript bits can contain placeholders, which are automatically made accessible through shortcode attributes.
+The "code" bits can contain placeholders, which are automatically made accessible as shortcode attributes.
 
-Time for an example.
+*Time for a quick example.*
 
-**YouTube video embed**
+Let's create a shortcode to embed YouTube videos. We'll add an HTML bit and set the it's value to the YouTube embed iframe.
 
-Create an HTML bit and set the HTML to the YouTube embed snippet.
+`<iframe src="https://youtube/embed/S7JjNq6feK0"/>`
 
-```
-<iframe type="text/html" width="640" height="360"
-  src="https://www.youtube.com/embed/S7JjNq6feK0"
-  frameborder="0"></iframe>
-```
+Now to make this bit a bit more flexible we will replace the YouTube video id with a placeholder value `{{id}}`.
 
-Now replace the YouTube video id with a placeholder.
+`<iframe src="https://youtube/embed/{{id}}"/>`
 
-```
-<iframe type="text/html" width="640" height="360"
-  src="https://www.youtube.com/embed/{{id}}"
-  frameborder="0"></iframe>
-```
+*Yay! We've finished our first bit!*
 
-Create a new Snippy Shortcode and add the YouTube HTML bit. You can now use the YouTube shortcode in your text editor like this `[youtube id=S7JjNq6feK0]`.
+Now we can create a new Snippy shortcode and add the YouTube iFrame HTML bit. After saving the shortcode we can use our new and shiny YouTube shortcode in the text editor.
 
-If the HTML bit requires styles or JavaScript files, you can add those as bits as well.
+`[[youtube id=S7JjNq6feK0]]`
+
+*Ready for more?*
+
+The below 3 minute YouTube video shows how you can use Snippy to turn a jQuery plugin into a WordPress plugin.
+
+<iframe src="https://youtube.com/embed/S7JjNq6feK0"></iframe>
 
 
 == Installation ==
@@ -52,31 +50,40 @@ If the HTML bit requires styles or JavaScript files, you can add those as bits a
 1. Select the zip file you downloaded.
 1. Click *Install Plugin*.
 1. Click *Activate*.
-1. Navigate to the 'Snippy' menu on the left and setup your first Shortcode.
+1. Navigate to the 'Snippy' menu on the left and setup your first shortcode.
 
 
 == Frequently Asked Questions ==
 
-= How do I use placeholders =
+= Can I use JavaScript or CSS files instead of HTML =
 
-You can define a placeholder in a bit using brackets like this: `{{placeholder}}`.
+Yes, you can select JS and CSS files to be added to a bit, Snippy will automatically load the files when the shortcode is used on a page.
 
-For example, suppose you want to create a placeholder for a YouTube video.
-```
-<iframe type="text/html"
-        src="https://www.youtube.com/embed/{{id}}"></iframe>
-```
 
-If you would use the above bit in a Snippy shortcode named "youtube" you can pass the id to the YouTube bit as follows:
+= How do I define placeholders =
 
-```
-[youtube id=S7JjNq6feK0]
-```
+You can define placeholders in bits by wrapping text in brackets like this: `{{placeholder}}`.
+
+Suppose you want to create a placeholder for a YouTube video. You'd replace the YouTube video id with `{{id}}`.
+
+`<iframe src="https://youtube/embed/{{id}}"/>`
+
+Now the attribute id is available in any shortcode that uses the YouTube HTML bit.
+
+`[[youtube id=S7JjNq6feK0]]`
+
+
+= How do I set a placeholder default value =
+
+Placeholder default values can be set by following the placeholder name with a semicolon and then the default value.
+
+`{{name:John Doe}}`
+
 
 == Screenshots ==
 
 1. Creating an HTML bit containing a YouTube iframe snippet and setting the `{{id}}` placeholder.
-2. Creating a [youtube] shortcode that makes use of the YouTube iframe snippet.
+2. Creating a `[youtube]` shortcode that makes use of the YouTube iframe snippet.
 3. Adding the shortcode to the page and setting a YouTube video id.
 
 == Upgrade Notice ==
