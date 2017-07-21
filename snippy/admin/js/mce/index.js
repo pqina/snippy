@@ -87,7 +87,7 @@
 		// Add insert shortcode button
 		editor.addButton('snippy', {
 			title: 'Insert Snippy Shortcode',
-			image: url + '/icon.png',
+			image: url + '/icon.svg',
 			cmd: 'snippy_insert_shortcode',
 			onpostrender: function() {
 				snippyButton = this;

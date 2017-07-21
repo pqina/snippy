@@ -325,7 +325,7 @@ class Bits_View {
             </tr>
             <tr class="form-field snippy--bit-text-field" style="display:<?php echo $isText ? '': 'none' ?>">
                 <th valign="top" scope="row">
-                    <label for="snippy--bit-editor"><?php \_e('Value', 'snippy')?></label>
+                    <label for="snippy--bit-editor" style="display:none"><?php \_e('Value', 'snippy')?></label>
                 </th>
                 <td>
                     <div id="snippy--bit-editor"></div>

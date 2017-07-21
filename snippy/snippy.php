@@ -127,13 +127,40 @@ class Snippy {
 
     public function admin_menu() {
 
+        $svg = '
+        <svg width="100%" height="100%" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve">
+            
+            <!-- left bracket -->
+            <rect x="1" y="1" width="2" height="18" rx="2" ry="2" fill="#9ea3a8" />
+            <rect x="2" y="1" width="3" height="2" rx="1" ry="1" fill="#9ea3a8" />
+            <rect x="2" y="17" width="3" height="2" rx="1" ry="1" fill="#9ea3a8" />
+            
+            <!-- big circle -->
+            <circle cx="7" cy="10" r="3.5" fill="#9ea3a8"/>
+            
+            <!-- small circle -->
+            <circle cx="7.25" cy="17" r="2" fill="#9ea3a8"/>
+            
+            <!-- square -->
+            <g transform="translate(9.5 7.5) rotate(45 3 3)">
+              <rect x="3" y="3" width="6" height="6" rx="1" ry="1" fill="#9ea3a8" />
+            </g>
+
+            <!-- right bracket -->
+            <rect x="17" y="1" width="2" height="18" rx="2" ry="2" fill="#9ea3a8" />
+            <rect x="15" y="1" width="3" height="2" rx="1" ry="1" fill="#9ea3a8" />
+            <rect x="15" y="17" width="3" height="2" rx="1" ry="1" fill="#9ea3a8" />
+        </svg>
+        ';
+        $icon = 'data:image/svg+xml;base64,' . base64_encode($svg);
+
         \add_menu_page(
             \__('Snippy', 'snippy'),
             \__('Snippy', 'snippy'),
             'activate_plugins',
             'snippy',
             array( 'snippy\Shortcodes_View', 'handle_overview'),
-            'dashicons-editor-code',
+            $icon,
             60
         );
 

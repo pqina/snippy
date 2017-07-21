@@ -1,26 +1,27 @@
-=== Plugin Name ===
+=== Snippy ===
 Contributors: pqina
+Donate link: https://codecanyon.net/user/pqina/portfolio?ref=pqina
 Tags: shortcode, short code, custom, build, create, edit, javascript, jquery, plugin
-Requires at least: 4.6
+Requires at least: 4.5
 Tested up to: 4.8
 Stable tag: trunk
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-With Snippy you can build your own shortcodes and define which resources (bits) are required when the shortcode is used on a page.
+Makes it easy to create your own custom shortcodes.
 
 
 == Description ==
 
-Use Snippy to create custom Shortcodes.
+Use Snippy to quickly create your own custom Shortcodes.
 
-A Snippy Shortcode consists of bits. Each bit can be a **Stylesheet**, a **JavaScript file** or a snippet of **HTML**, **CSS** or **inline JavaScript**.
+A Snippy Shortcode consists of bits. Each bit is either a **Stylesheet**, a **Script** or a piece of **HTML**, **CSS** or **JavaScript**.
 
-The HTML, CSS and JavaScript bits can contain placeholders, which automatically made accessible as shortcode attributes.
+The HTML, CSS and JavaScript bits can contain placeholders, which are automatically made accessible through shortcode attributes.
 
 Time for an example.
 
-=== YouTube video embed ===
+**YouTube video embed**
 
 Create an HTML bit and set the HTML to the YouTube embed snippet.
 
@@ -63,7 +64,7 @@ You can define a placeholder in a bit using brackets like this: `{{placeholder}}
 For example, suppose you want to create a placeholder for a YouTube video.
 ```
 <iframe type="text/html"
-        src="https://www.youtube.com/embed/{{id}}?autoplay=1"></iframe>
+        src="https://www.youtube.com/embed/{{id}}"></iframe>
 ```
 
 If you would use the above bit in a Snippy shortcode named "youtube" you can pass the id to the YouTube bit as follows:
@@ -72,6 +73,15 @@ If you would use the above bit in a Snippy shortcode named "youtube" you can pas
 [youtube id=S7JjNq6feK0]
 ```
 
+== Screenshots ==
+
+1. Creating an HTML bit containing a YouTube iframe snippet and setting the `{{id}}` placeholder.
+2. Creating a [youtube] shortcode that makes use of the YouTube iframe snippet.
+3. Adding the shortcode to the page and setting a YouTube video id.
+
+== Upgrade Notice ==
+
+Test
 
 
 == Changelog ==
