@@ -8,4 +8,4 @@ The instruction video below shows how to setup a JavaScript Countdown plugin on 
 
 You can get the Snippy plugin here.
 
-[Download Snippy](https://raw.githubusercontent.com/pqina/snippy/master/snippy.zip)
+[Download Snippy](https://wordpress.org/plugins/snippy/)
