@@ -1,5 +1,20 @@
 var Snippy = (function(undefined){
 
+	function showLocalField() {
+
+    showNodes(document.querySelectorAll('.snippy--resource-type-local'));
+    hideNodes(document.querySelectorAll('.snippy--resource-type-remote'));
+
+	}
+
+	function showRemoteField() {
+
+    showNodes(document.querySelectorAll('.snippy--resource-type-remote'));
+    hideNodes(document.querySelectorAll('.snippy--resource-type-local'));
+
+
+	}
+
 	function showFileField(isText) {
 
 		showNodes(document.querySelectorAll('.snippy--bit-resource-field'));
@@ -23,6 +38,8 @@ var Snippy = (function(undefined){
 
 	var exports = {
 		Bits:{
+			showLocalField:showLocalField,
+			showRemoteField:showRemoteField,
 			showTextField:showTextField,
 			showFileField:showFileField,
 			loadEditor:loadEditor,
@@ -58,9 +75,9 @@ var Snippy = (function(undefined){
 
 	function updatePlaceholders(value) {
 		var placeholders = document.querySelector('.snippy--bit-placeholders');
-		var matches = value.match(/({{[a-z]+(?::.+?){0,1}}})/gi) || [];
+		var matches = value.match(/({{[a-z_]+(?::.+?){0,1}}})/gi) || [];
 		placeholders.innerHTML = matches.map(function(str) {
-			var tag = str.match(/^{{([a-z]+)/i)[0].replace(/^{{/,'');
+			var tag = str.match(/^{{([a-z_]+)/i)[0].replace(/^{{/,'');
 			var value = '';
 			if (str.indexOf(':')!==-1 && tag !== 'content') {
 				value = str.match(/:(.+)}}$/)[0].substr(1).replace(/}}$/,'');

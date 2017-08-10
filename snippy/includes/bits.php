@@ -40,7 +40,7 @@ class Bits_View {
 
                         $label = '';
                         if ($bitType === 'resource') {
-                            $label = '<span class="snippy--bit-type-resource">' . $item['value'] . '</span>';
+                            $label = '<span class="snippy--bit-type-resource ' . (Utils::is_remote($item['value']) ? 'snippy--bit-resource-remote' : '') . '">' . Utils::to_filename($item['value']) . '</span>';
                         }
 
                         return '<span class="snippy--bit-format-' . $bitFormat . '">' . strtoupper($bitFormat) . '</span> ' . $label;
@@ -109,49 +109,58 @@ class Bits_View {
             $item_valid = true;
 
             // previous value
-            $item_previous_value = $_REQUEST['previous_value'];
+            //$item_previous_value = $_REQUEST['previous_value'];
 
             // if a file is posted
             if ($_REQUEST['type'] === 'resource') {
 
                 // uploading new file or overwriting file
-                if (isset($_FILES['resource']) && $_FILES['resource']['size'] > 0) {
+                if ($_REQUEST['resource-location'] === 'local') {
 
-                    $uploaded_file = $_FILES['resource'];
-                    $uploaded_filename = $uploaded_file['name'];
-                    $uploaded_file_extension = strtolower(pathinfo($uploaded_filename, PATHINFO_EXTENSION));
+                    // if sent a file
+                    if (isset($_FILES['resource']) &&
+                        $_FILES['resource']['size'] > 0) {
 
-                    $allowed_extensions = ['css', 'js'];
+                        $uploaded_file = $_FILES['resource'];
+                        $uploaded_filename = $uploaded_file['name'];
+                        $uploaded_file_extension = strtolower(pathinfo($uploaded_filename, PATHINFO_EXTENSION));
 
-                    if (!in_array($uploaded_file_extension, $allowed_extensions)) {
-                        $item_valid = \__('There was an error while uploading the resource', 'snippy');
-                    }
-                    else {
-                        $move_result = \wp_handle_upload( $uploaded_file, array( 'test_form' => false ) );
+                        $allowed_extensions = ['css', 'js'];
 
-                        if ( $move_result && ! isset( $move_result['error'] ) ) {
-
-                            $path = str_replace( \wp_upload_dir()['basedir'], '', $move_result['file'] );
-
-                            // set type to the extension of the uploaded file
-                            $item['type'] = $uploaded_file_extension === 'js' ? 'script' : 'stylesheet';
-                            $item['value'] = $path;
-
-                        } else {
+                        if (!in_array($uploaded_file_extension, $allowed_extensions)) {
                             $item_valid = \__('There was an error while uploading the resource', 'snippy');
                         }
+                        else {
+                            $move_result = \wp_handle_upload( $uploaded_file, array( 'test_form' => false ) );
+
+                            if ( $move_result && ! isset( $move_result['error'] ) ) {
+
+                                $path = str_replace( \wp_upload_dir()['basedir'], '', $move_result['file'] );
+
+                                // set type to the extension of the uploaded file
+                                $item['type'] = $uploaded_file_extension === 'js' ? 'script' : 'stylesheet';
+                                $item['value'] = $path;
+
+                            } else {
+                                $item_valid = \__('There was an error while uploading the resource', 'snippy');
+                            }
+                        }
+                    }
+                    // updating existing file meta data
+                    else {
+
+                        // type can remain the same
+                        // value can remain the same
+                        // only name could be changed
+
+                        $item['type'] = strtolower(pathinfo($item['value'], PATHINFO_EXTENSION)) === 'js' ? 'script' : 'stylesheet';
+
                     }
 
                 }
-                // updating existing file meta data
-                else {
-
-                    // type can remain the same
-                    // value can remain the same
-                    // only name could be changed
-
+                else if ($_REQUEST['resource-location'] === 'remote') {
+                    $item['value'] = $_REQUEST['resource-remote'];
                     $item['type'] = strtolower(pathinfo($item['value'], PATHINFO_EXTENSION)) === 'js' ? 'script' : 'stylesheet';
-
                 }
 
             }
@@ -191,9 +200,12 @@ class Bits_View {
                 // existing item
                 else {
 
+                    // get current value
+                    $bit = Data::get_entry('bits', $item['id']);
+
                     // remove previous file if set
-                    if ($item_previous_value !== $item['value']) {
-                        Data::delete_file($item_previous_value);
+                    if ($bit['value'] !== $item['value']) {
+                        Data::delete_bit_resource($item['id']);
                     }
 
                     // update data
@@ -297,7 +309,7 @@ class Bits_View {
                     <label for="type"><?php \_e('Type', 'snippy')?></label>
                 </th>
                 <td>
-                    <fieldset class="snippy--bit-type-toggle">
+                    <fieldset class="snippy--type-toggle snippy--bit-type-toggle">
                         <legend><?php \_e('Type', 'snippy')?></legend>
                         <ul>
                             <li><label><input type="radio" name="type" value="html" <?php echo $item['type'] === 'html' || $isNew ? 'checked' : '' ?>> <span class="snippy--bit-format-html">HTML</span></label></li>
@@ -361,6 +373,15 @@ class Bits_View {
                                 <p><?php \_e('The <code>{{content}}</code> placeholder is reserved for content wrapped by the Snippy shortcode and will automatically be replaced.', 'snippy')?></p>
                                 <pre><code>[person]John Doe[/person]</code></pre>
                             </li>
+                            <li>
+                                <p><?php \_e('The following list of placeholders can be used to access dynamic page data.', 'snippy')?></p>
+                                <pre><code>{{page_id}}</code></pre>
+                                <pre><code>{{page_absolute_url}}</code></pre>
+                                <pre><code>{{page_relative_url}}</code></pre>
+                                <pre><code>{{unique_id}}</code></pre>
+                                <pre><code>{{date_today}}</code></pre>
+                                <pre><code>{{date_tomorrow}}</code></pre>
+                            </li>
                         </ol>
 
                     </div>
@@ -371,14 +392,45 @@ class Bits_View {
                     <label for="resource"><?php \_e('Resource', 'snippy')?></label>
                 </th>
                 <td>
-                    <?php if (!$isText) {?>
+                    <?php
+                    $is_remote_resource = Utils::is_remote($item['value']);
+                    ?>
+                    <fieldset class="snippy--type-toggle snippy--resource-typ-toggle">
+                        <legend><?php \_e('Resource location', 'snippy')?></legend>
+                        <ul>
+                            <li><label><input type="radio" name="resource-location" value="local" <?php echo $is_remote_resource ? '' : 'checked' ?>> Local</label></li>
+                            <li><label><input type="radio" name="resource-location" value="remote" <?php echo $is_remote_resource ? 'checked' :'' ?>> Remote</label></li>
+                        </ul>
+                        <script>
+                          (function(){
+
+                            document.querySelector('.snippy--resource-typ-toggle').addEventListener('change', function(e) {
+                              if (e.target.value === 'local') {
+                                Snippy.Bits.showLocalField();
+                              }
+                              else {
+                                Snippy.Bits.showRemoteField();
+                              }
+                            });
+
+                          }());
+                        </script>
+                    </fieldset>
+
+                    <div class="snippy--resource-type-local" <?php echo $is_remote_resource ? 'style="display:none"' : '' ?>>
+                        <?php if (!$isText && !$is_remote_resource) {?>
                         "<span class="snippy--bit-resource-original"><?php echo $item['value']; ?></span>"
                         <p>
                             Upload a new file: <input id="resource" name="resource" type="file">
                         </p>
-                    <?php } else { ?>
+                        <?php } else { ?>
                         <input id="resource" name="resource" type="file" style="width: 95%">
-                    <?php } ?>
+                        <?php } ?>
+                    </div>
+
+                    <div class="snippy--resource-type-remote" <?php echo $is_remote_resource ? '' : 'style="display:none"' ?>>
+                        <input id="resource-remote" name="resource-remote" type="text" value="<?php echo $is_remote_resource ? $item['value'] : '' ?>" style="width: 95%">
+                    </div>
                 </td>
             </tr>
             </tbody>

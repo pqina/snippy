@@ -207,7 +207,7 @@ class Shortcodes_View {
                                         echo '<span class="snippy--bit-format-' . $bitFormat . '">' . strtoupper($bitFormat) . '</span>';
 
                                         if (Utils::get_bit_type($bit) === 'resource') {
-                                            echo '<span class="snippy--bit-type-resource">' . $bit['value'] . '</span>';
+                                            echo '<span class="snippy--bit-type-resource ' . (Utils::is_remote($bit['value']) ? 'snippy--bit-resource-remote' : '') . '">' . Utils::to_filename($bit['value']) . '</span>';
                                         }
                                         ?>
                                     </td>

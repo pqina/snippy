@@ -3,7 +3,7 @@
 * Plugin Name: Snippy
 * Plugin URI: https://pqina.nl/snippy
 * Description: Snippy, create your own super flexible shortcodes
-* Version: 1.0.0
+* Version: 1.1.0
 * Author: PQINA
 * Author URI: https://pqina.nl
 * License: GPL2
@@ -46,6 +46,7 @@ function uninstall() {
 // Get dependencies
 require_once('includes/db.php');
 require_once('includes/utils.php');
+require_once('includes/placeholders.php');
 
 
 // Only required for admin
@@ -60,8 +61,8 @@ if ( is_admin() ) {
 // Class
 class Snippy {
 
-    // Snippy version and Snippy Database version
-    public static $version = '1.0.0';
+    // Snippy version
+    public static $version = '1.1.0';
 
     private static $_instance = null;
 
@@ -82,8 +83,6 @@ class Snippy {
 
         \add_action( 'plugins_loaded', array($this, 'update' ) );
 
-        \add_action( 'admin_menu', array( $this, 'admin_menu') );
-
         \add_action( 'init', array( $this, 'init') );
 
         \add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts') );
@@ -94,6 +93,10 @@ class Snippy {
 
     public function init()
     {
+
+        if (\current_user_can('administrator')) {
+            \add_action( 'admin_menu', array( $this, 'admin_menu') );
+        }
 
         \load_plugin_textdomain('snippy', false, dirname(\plugin_basename(__FILE__)));
 
@@ -204,21 +207,25 @@ class Snippy {
 
     public function register_admin_scripts() {
 
-        wp_enqueue_style( 'snippy-admin-styles', plugin_dir_url( __FILE__ ) . 'admin/css/style.css', array(), Snippy::$version );
-        wp_enqueue_script( 'snippy-admin-scripts', plugin_dir_url( __FILE__ ) . 'admin/js/script.js', array(), Snippy::$version, true );
+        \wp_enqueue_style( 'snippy-admin-styles', \plugin_dir_url( __FILE__ ) . 'admin/css/style.css', array(), Snippy::$version );
+        \wp_enqueue_script( 'snippy-admin-scripts', \plugin_dir_url( __FILE__ ) . 'admin/js/script.js', array(), Snippy::$version, true );
 
     }
 
     public function register_scripts() {
 
-        $upload_url = wp_upload_dir()['baseurl'];
+        $upload_url = \wp_upload_dir()['baseurl'];
         $bits = Data::get_entries_all('bits');
         foreach($bits as $bit) {
+
+            $url = Utils::is_remote($bit['value']) ? $bit['value'] : $upload_url . $bit['value'];
+            $name = $bit['name'];
+
             if ($bit['type'] === 'script') {
-                wp_register_script( $bit['name'], $upload_url . $bit['value'], array(), false, true );
+                \wp_register_script( $name, $url, array(), false, true );
             }
             else if ($bit['type'] === 'stylesheet') {
-                wp_register_style( $bit['name'], $upload_url . $bit['value'] );
+                \wp_register_style( $name, $url );
             }
         }
 
@@ -229,7 +236,7 @@ class Snippy {
         $shortcode_entries = Data::get_entries_all('shortcodes');
 
         foreach ($shortcode_entries as $shortcode_entry) {
-            add_shortcode($shortcode_entry['name'], array( $this , 'handle_shortcode'));
+            \add_shortcode($shortcode_entry['name'], array( $this , 'handle_shortcode'));
         }
     }
 
@@ -252,12 +259,12 @@ class Snippy {
 
             // if is script, enqueue
             if ($bit_type === 'script') {
-                wp_enqueue_script( $bit_name );
+                \wp_enqueue_script( $bit_name );
             }
 
             // if is stylesheet, enqueue
             else if ($bit_type === 'stylesheet') {
-                wp_enqueue_style( $bit_name );
+                \wp_enqueue_style( $bit_name );
             }
 
             // if is CSS wrap in <style> tags and prepend to output
@@ -293,6 +300,7 @@ class Snippy {
                     }
                 }
 
+                // replace placeholders
                 $html = Utils::replace_placeholders($placeholders_merged, $html);
 
                 // if has {{content}}, replace with do_shortcodes($content);

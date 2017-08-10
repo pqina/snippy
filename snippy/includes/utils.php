@@ -21,9 +21,19 @@ class Utils {
         return 'text';
     }
 
+    static public function is_remote($value) {
+        return preg_match('/^https{0,1}:\/\//', $value);
+    }
+
+    static public function to_filename($value) {
+        preg_match('/([^\/]*)$/', $value, $matches);
+        return $matches[0];
+    }
+
     static public function replace_placeholders($placeholders, $html) {
         foreach ($placeholders as $placeholder) {
-            $html = preg_replace('/{{'. $placeholder['name'] .'(?::.+){0,1}}}/i', $placeholder['value'], $html);
+            $replacement = !empty($placeholder['value']) ? $placeholder['value'] : Placeholders::get_placeholder_value($placeholder['name']);
+            $html = preg_replace('/{{'. $placeholder['name'] .'(?::.+){0,1}}}/i', $replacement, $html);
         }
         return $html;
     }
@@ -61,7 +71,7 @@ class Utils {
 
     static public function get_placeholders_from_bit($bit) {
 
-        preg_match_all('/({{[a-z]+(?::.+?){0,1}}})/i', html_entity_decode($bit['value']), $placeholders);
+        preg_match_all('/({{[a-z_]+(?::.+?){0,1}}})/i', html_entity_decode($bit['value']), $placeholders);
 
         $formatted_placeholders = array();
 
@@ -69,7 +79,7 @@ class Utils {
 
             foreach ($placeholders[0] as $placeholder) {
 
-                preg_match('/{{([a-z]+)/i', $placeholder, $nameMatch);
+                preg_match('/{{([a-z_]+)/i', $placeholder, $nameMatch);
 
                 $name = preg_replace('/^{{/', '', $nameMatch[0]);
 

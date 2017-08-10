@@ -1,10 +1,10 @@
 === Snippy ===
 Contributors: pqina
 Donate link: https://codecanyon.net/user/pqina/portfolio?ref=pqina
-Tags: shortcode, short code, custom, build, create, edit, javascript, jquery, plugin
+Tags: shortcode, short code, build, create, javascript
 Requires at least: 4.5
-Tested up to: 4.8
-Stable tag: trunk
+Tested up to: 4.8.1
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,18 +80,38 @@ Placeholder default values can be set by following the placeholder name with a s
 `{{name:John Doe}}`
 
 
+= Which default placeholders can I use =
+
+The following list of placeholders have a special function:
+
+* `{{content}}` is always replaced with the content wrapped by your shortcode.
+* `{{date_today}}` is replaced with an ISO8601 representation of today's date.
+* `{{date_tomorrow}}` is replaced with an ISO8601 representation of today's date.
+* `{{unique_id}}` is replaced with a uniquely generated id.
+* `{{page_id}}` is replaced with the current page id.
+* `{{page_relative_url}}` relative url to the current page.
+* `{{page_absolute_url}}` absolute url to the current page (includes the domain).
+
+
 == Screenshots ==
 
 1. Creating an HTML bit containing a YouTube iframe snippet and setting the `{{id}}` placeholder.
 2. Creating a `[youtube]` shortcode that makes use of the YouTube iframe snippet.
 3. Adding the shortcode to the page and setting a YouTube video id.
 
-== Upgrade Notice ==
-
-Test
-
 
 == Changelog ==
 
+= 1.1.0 =
+
+* Add "local" or "remote" resource bit which makes possible the option to include CDN resources.
+* Add a starter set of dynamic placeholders
+* Only admin can now edit Snippy shortcodes
+
+
 = 1.0 =
+
 * Initial release
+
+
+== Upgrade Notice ==

@@ -35,6 +35,13 @@
     padding:.25em .5em;
 }
 
+.snippy--bit-resource-remote::before {
+    content: '\f176';
+    font-family: dashicons;
+    margin-right:.25em;
+    position:relative;
+    top:.1875em;
+}
 
 
 
@@ -50,17 +57,17 @@
 /**
  * Snippy type toggle
  */
-.snippy--bit-type-toggle ul {
+.snippy--type-toggle ul {
     margin:0;
 }
 
-.snippy--bit-type-toggle li {
+.snippy--type-toggle li {
     display:inline-block;
     margin-right:1em;
     margin-bottom:0;
 }
 
-.snippy--bit-type-toggle legend {
+.snippy--type-toggle legend {
     display:none;
 }
 
