@@ -115,7 +115,7 @@ class Item_List_Table extends \WP_List_Table {
 
     function prepare_items()
     {
-        $per_page = 5; // constant, how much records will be shown per page
+        $per_page = 20;
         $columns = $this->get_columns();
         $hidden = array();
         $sortable = $this->get_sortable_columns();
@@ -137,7 +137,7 @@ class Item_List_Table extends \WP_List_Table {
         // define $items array
         $this->items = Data::get_entries($this->table, $orderby, $order, $per_page, $paged);
 
-        $this->set_pagination_args(array(
+        $this->set_pagination_args( array(
             'total_items' => $total_items, // total items defined above
             'per_page' => $per_page, // per page constant defined at top of method
             'total_pages' => ceil($total_items / $per_page) // calculate pages count

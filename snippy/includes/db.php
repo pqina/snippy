@@ -26,7 +26,7 @@ class Data {
 
         array_unshift($params, $table);
 
-        $wpdb->query(vsprintf($sql, $params));
+        return $wpdb->query( vsprintf($sql, $params) );
     }
 
     static public function setup_db() {
@@ -114,7 +114,9 @@ class Data {
     }
 
     static public function get_total_entries($table) {
-        return self::run_simple_query('SELECT COUNT(id) FROM %s', $table);
+        global $wpdb;
+        $table_name = self::get_table_name($table);
+        return count($wpdb->get_results( "SELECT id FROM $table_name", ARRAY_A ));
     }
 
     static public function get_entries($table, $order_by, $order, $per_page, $paged) {

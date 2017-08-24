@@ -4,7 +4,7 @@ Donate link: https://codecanyon.net/user/pqina/portfolio?ref=pqina
 Tags: shortcode, short code, build, create, javascript
 Requires at least: 4.5
 Tested up to: 4.8.1
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -102,6 +102,11 @@ The following list of placeholders have a special function:
 
 == Changelog ==
 
+= 1.1.1 =
+
+* Fix problem where shortcode and bits tables would not show paging control
+
+
 = 1.1.0 =
 
 * Add "local" or "remote" resource bit which makes possible the option to include CDN resources.
@@ -115,3 +120,5 @@ The following list of placeholders have a special function:
 
 
 == Upgrade Notice ==
+
+Fix problem where shortcode and bits tables would not show paging control
