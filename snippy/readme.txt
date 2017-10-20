@@ -3,8 +3,8 @@ Contributors: pqina
 Donate link: https://codecanyon.net/user/pqina/portfolio?ref=pqina
 Tags: shortcode, short code, build, create, javascript
 Requires at least: 4.5
-Tested up to: 4.8.1
-Stable tag: 1.1.1
+Tested up to: 4.8.2
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -91,6 +91,9 @@ The following list of placeholders have a special function:
 * `{{page_id}}` is replaced with the current page id.
 * `{{page_relative_url}}` relative url to the current page.
 * `{{page_absolute_url}}` absolute url to the current page (includes the domain).
+* `{{theme}}` current theme name.
+* `{{theme_root_uri}}` theme directory URI.
+* `{{template_directory_uri}}` current theme directory URI.
 
 
 == Screenshots ==
@@ -101,6 +104,12 @@ The following list of placeholders have a special function:
 
 
 == Changelog ==
+
+= 1.2.0 =
+
+* HTML bits can now contain shortcodes
+* Add more placeholders
+
 
 = 1.1.1 =
 
@@ -121,4 +130,4 @@ The following list of placeholders have a special function:
 
 == Upgrade Notice ==
 
-Fix problem where shortcode and bits tables would not show paging control
+Improved parsing of bits, HTML bits can now contain shortcodes. Three additional default placeholders were added.

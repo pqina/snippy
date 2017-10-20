@@ -3,7 +3,7 @@
 * Plugin Name: Snippy
 * Plugin URI: https://pqina.nl/snippy
 * Description: Snippy, create your own super flexible shortcodes
-* Version: 1.1.1
+* Version: 1.2.0
 * Author: PQINA
 * Author URI: https://pqina.nl
 * License: GPL2
@@ -62,7 +62,7 @@ if ( is_admin() ) {
 class Snippy {
 
     // Snippy version
-    public static $version = '1.1.1';
+    public static $version = '1.2.0';
 
     private static $_instance = null;
 
@@ -282,7 +282,7 @@ class Snippy {
             else if ($bit_type === 'html') {
 
                 // replace placeholders in html value
-                $html = html_entity_decode($bit_value);
+                $html = \do_shortcode(html_entity_decode($bit_value));
                 $placeholders_merged = Utils::merge_placeholders_and_atts($bit, $atts);
 
                 // if has content add content to placeholder

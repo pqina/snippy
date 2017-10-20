@@ -32,6 +32,22 @@ class Placeholders
             return \add_query_arg(array(), $wp->request);
         }
 
+        // return name of the current theme
+        if ($name === 'theme') {
+            return \get_template();
+        }
+
+        // returns uri of the themes directory
+        if ($name === 'theme_root_uri') {
+            return \get_theme_root_uri();
+        }
+
+        // Returns the uri of the current theme
+        if ($name === 'template_directory_uri') {
+            return \get_template_directory_uri();
+        }
+
+        
         /**
          * PHP
          */
@@ -50,7 +66,7 @@ class Placeholders
         if ($name === 'date_tomorrow') {
             return toISODate(new \DateTime('tomorrow'));
         }
-
+        
         return '';
     }
 
