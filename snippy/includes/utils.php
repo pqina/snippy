@@ -33,7 +33,7 @@ class Utils {
     static public function replace_placeholders($placeholders, $html) {
         foreach ($placeholders as $placeholder) {
             $replacement = !empty($placeholder['value']) ? $placeholder['value'] : Placeholders::get_placeholder_value($placeholder['name']);
-            $html = preg_replace('/{{'. $placeholder['name'] .'(?::.+){0,1}}}/i', $replacement, $html);
+            $html = preg_replace('/{{'. $placeholder['name'] .'(?::.+?){0,1}}}/i', $replacement, $html);
         }
         return $html;
     }

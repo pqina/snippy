@@ -3,8 +3,8 @@ Contributors: pqina
 Donate link: https://codecanyon.net/user/pqina/portfolio?ref=pqina
 Tags: shortcode, short code, build, create, javascript
 Requires at least: 4.5
-Tested up to: 4.8.2
-Stable tag: 1.2.0
+Tested up to: 4.9.4
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
