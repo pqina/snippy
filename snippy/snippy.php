@@ -3,7 +3,7 @@
 Plugin Name: Snippy
 Plugin URI: https://pqina.nl/snippy
 Description: Snippy, create your own super flexible shortcodes
-Version: 1.2.1
+Version: 1.3.0
 Author: PQINA
 Author URI: https://pqina.nl
 License: GPL2
@@ -27,7 +27,6 @@ along with Snippy. If not, see {URI to Plugin License}.
 */
 
 namespace snippy;
-
 
 function uninstall() {
 
@@ -64,9 +63,13 @@ if ( is_admin() ) {
 class Snippy {
 
     // Snippy version
-    public static $version = '1.2.0';
+    public static $version = '1.3.0';
 
     private static $_instance = null;
+
+    private static $_shortcode_id = 0;
+
+    private static $_page_info = array();
 
     public static function get_instance() {
 
@@ -90,6 +93,8 @@ class Snippy {
         \add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts') );
 
         \add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_scripts') );
+
+        \add_action( 'the_post', array( $this, 'get_page_data' ) );
 
     }
 
@@ -233,6 +238,22 @@ class Snippy {
 
     }
 
+    public function get_page_data() {
+
+        global $wp;
+        global $post;
+
+        self::$_page_info['page_id'] = $post->ID;
+        self::$_page_info['page_absolute_url'] = \home_url(\add_query_arg(array(), $wp->request));
+        self::$_page_info['page_relative_url'] = \add_query_arg(array(), $wp->request);
+        self::$_page_info['theme'] = \get_template();
+        self::$_page_info['theme_root_uri'] = \get_theme_root_uri();
+        self::$_page_info['template_directory_uri'] = \get_template_directory_uri();
+        self::$_page_info['date_today'] = (new \DateTime('today'))->format('Y-m-d');
+        self::$_page_info['date_tomorrow'] = (new \DateTime('tomorrow'))->format('Y-m-d');
+
+    }
+
     private function shortcodes() {
 
         $shortcode_entries = Data::get_entries_all('shortcodes');
@@ -252,9 +273,14 @@ class Snippy {
         // get bits for shortcode with this id
         $bits = Data::get_bits_for_shortcode_by_name($tag);
 
+        // get unique shortcode id
+        self::$_shortcode_id++;
+        $shortcode_id = self::$_shortcode_id;
+
         // use bits
         foreach ($bits as $bit) {
 
+            $bit_id = $bit['id'];
             $bit_name = $bit['name'];
             $bit_type = $bit['type'];
             $bit_value = $bit['value'];
@@ -269,60 +295,75 @@ class Snippy {
                 \wp_enqueue_style( $bit_name );
             }
 
-            // if is CSS wrap in <style> tags and prepend to output
-            else if ($bit_type === 'css') {
+            else {
 
-                // replace placeholders in css value
-                $css = html_entity_decode($bit_value);
-                $placeholders_merged = Utils::merge_placeholders_and_atts($bit, $atts);
-                $css = Utils::replace_placeholders($placeholders_merged, $css);
+                $info = array();
+                $info['bit_id'] = $bit_id;
+                $info['shortcode_id'] = $shortcode_id;
+                $info['unique_id'] = \uniqid();
 
-                $output .= "<style>$css</style>";
-            }
+                // set data for placeholder dynamic replacements
+                $data = array_merge($atts, $info);
 
-            // if is HTML, add to output and replace placeholders with $atts
-            else if ($bit_type === 'html') {
+                // add page data
+                $data = array_merge($data, self::$_page_info);
 
-                // replace placeholders in html value
-                $html = \do_shortcode(html_entity_decode($bit_value));
-                $placeholders_merged = Utils::merge_placeholders_and_atts($bit, $atts);
+                // combine placeholders and attribute default values
+                $placeholders_merged = Utils::merge_placeholders_and_atts($bit, $data);
 
-                // if has content add content to placeholder
-                if ($hasContent) {
-                    $placeholders_merged = array_filter($placeholders_merged, function($placeholder) {
-                        return $placeholder['name'] !== 'content';
-                    });
+                // if is CSS wrap in <style> tags and prepend to output
+                if ($bit_type === 'css') {
+
+                    // replace placeholders in css value
+                    $css = html_entity_decode($bit_value);
+                    $css = Utils::replace_placeholders($placeholders_merged, $css, $data);
+
+                    $output .= "<style>$css</style>";
                 }
-                // has content attr
-                elseif (isset($atts['content'])) {
-                    foreach ($placeholders_merged as &$placeholder) {
-                        if ($placeholder['name'] === 'content') {
-                            $placeholder['value'] = $atts['content'];
+
+                // if is HTML, add to output and replace placeholders with $data
+                else if ($bit_type === 'html') {
+
+                    // replace placeholders in html value
+                    $html = \do_shortcode(html_entity_decode($bit_value));
+
+                    // if has content add content to placeholder
+                    if ($hasContent) {
+                        $placeholders_merged = array_filter($placeholders_merged, function($placeholder) {
+                            return $placeholder['name'] !== 'content';
+                        });
+                    }
+                    // has content attr
+                    elseif (isset($data['content'])) {
+                        foreach ($placeholders_merged as &$placeholder) {
+                            if ($placeholder['name'] === 'content') {
+                                $placeholder['value'] = $data['content'];
+                            }
                         }
                     }
+
+                    // replace placeholders
+                    $html = Utils::replace_placeholders($placeholders_merged, $html, $data);
+
+                    // if has {{content}}, replace with do_shortcodes($content);
+                    if ($hasContent) {
+                        $html = str_replace('{{content}}', \do_shortcode($content), $html);
+                    }
+
+                    // done
+                    $output .= $html;
                 }
 
-                // replace placeholders
-                $html = Utils::replace_placeholders($placeholders_merged, $html);
+                // if is JS wrap in <script> tags and append to output
+                else if ($bit_type === 'js') {
 
-                // if has {{content}}, replace with do_shortcodes($content);
-                if ($hasContent) {
-                    $html = str_replace('{{content}}', \do_shortcode($content), $html);
+                    // replace placeholders in js value
+                    $js = html_entity_decode($bit_value);
+                    $js = Utils::replace_placeholders($placeholders_merged, $js, $data);
+
+                    $output .= "<script>$js</script>";
                 }
-
-                // done
-                $output .= $html;
-            }
-
-            // if is JS wrap in <script> tags and append to output
-            else if ($bit_type === 'js') {
-
-                // replace placeholders in js value
-                $js = html_entity_decode($bit_value);
-                $placeholders_merged = Utils::merge_placeholders_and_atts($bit, $atts);
-                $js = Utils::replace_placeholders($placeholders_merged, $js);
-
-                $output .= "<script>$js</script>";
+                
             }
 
 

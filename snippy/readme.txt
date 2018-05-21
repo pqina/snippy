@@ -3,8 +3,8 @@ Contributors: pqina
 Donate link: https://codecanyon.net/user/pqina/portfolio?ref=pqina
 Tags: shortcode, short code, build, create, javascript
 Requires at least: 4.5
-Tested up to: 4.9.4
-Stable tag: 1.2.1
+Tested up to: 4.9.6
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,7 +23,7 @@ The "code" bits can contain placeholders, which are automatically made accessibl
 
 Let's create a shortcode to embed YouTube videos. We'll add an HTML bit and set the it's value to the YouTube embed iframe.
 
-`<iframe src="https://youtube/embed/S7JjNq6feK0"/>`
+`<iframe src="https://youtube/embed/JZYYJY4yoK4"/>`
 
 Now to make this bit a bit more flexible we will replace the YouTube video id with a placeholder value `{{id}}`.
 
@@ -33,13 +33,13 @@ Now to make this bit a bit more flexible we will replace the YouTube video id wi
 
 Now we can create a new Snippy shortcode and add the YouTube iFrame HTML bit. After saving the shortcode we can use our new and shiny YouTube shortcode in the text editor.
 
-`[[youtube id=S7JjNq6feK0]]`
+`[[youtube id=JZYYJY4yoK4]]`
 
 *Ready for more?*
 
 The below 3 minute YouTube video shows how you can use Snippy to turn a jQuery plugin into a WordPress plugin.
 
-<iframe src="https://youtube.com/embed/S7JjNq6feK0"></iframe>
+<iframe src="https://youtube.com/embed/JZYYJY4yoK4"></iframe>
 
 
 == Installation ==
@@ -70,7 +70,7 @@ Suppose you want to create a placeholder for a YouTube video. You'd replace the 
 
 Now the attribute id is available in any shortcode that uses the YouTube HTML bit.
 
-`[[youtube id=S7JjNq6feK0]]`
+`[[youtube id=JZYYJY4yoK4]]`
 
 
 = How do I set a placeholder default value =
@@ -88,6 +88,8 @@ The following list of placeholders have a special function:
 * `{{date_today}}` is replaced with an ISO8601 representation of today's date.
 * `{{date_tomorrow}}` is replaced with an ISO8601 representation of today's date.
 * `{{unique_id}}` is replaced with a uniquely generated id.
+* `{{shortcode_id}}` is replaced with the id of the current shortcode.
+* `{{bit_id}}` is replaced with the id of the current bit.
 * `{{page_id}}` is replaced with the current page id.
 * `{{page_relative_url}}` relative url to the current page.
 * `{{page_absolute_url}}` absolute url to the current page (includes the domain).
@@ -104,6 +106,12 @@ The following list of placeholders have a special function:
 
 
 == Changelog ==
+
+= 1.3.0 =
+
+* When using multiple placeholders with the same name, they will only show up once
+* Add `bit_id` and `shortcode_id` placeholders
+
 
 = 1.2.0 =
 

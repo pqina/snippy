@@ -76,14 +76,19 @@ var Snippy = (function(undefined){
 	function updatePlaceholders(value) {
 		var placeholders = document.querySelector('.snippy--bit-placeholders');
 		var matches = value.match(/({{[a-z_]+(?::.+?){0,1}}})/gi) || [];
+		var tags = [];
 		placeholders.innerHTML = matches.map(function(str) {
 			var tag = str.match(/^{{([a-z_]+)/i)[0].replace(/^{{/,'');
+			if (tags.indexOf(tag) !== -1) {
+				return null;
+			}
+			tags.push(tag);
 			var value = '';
 			if (str.indexOf(':')!==-1 && tag !== 'content') {
 				value = str.match(/:(.+)}}$/)[0].substr(1).replace(/}}$/,'');
 			}
 			return '<li><span class="snippy--bit-placeholder-name">' + tag + '</span><span class="snippy--bit-placeholder-default">' + value + '</span></li>';
-		}).join('');
+		}).filter(function(item){ return item !== null }).join('');
 	}
 
 	function loadEditor() {

@@ -32,8 +32,9 @@ class Utils {
 
     static public function replace_placeholders($placeholders, $html) {
         foreach ($placeholders as $placeholder) {
-            $replacement = !empty($placeholder['value']) ? $placeholder['value'] : Placeholders::get_placeholder_value($placeholder['name']);
-            $html = preg_replace('/{{'. $placeholder['name'] .'(?::.+?){0,1}}}/i', $replacement, $html);
+            $name = $placeholder['name'];
+            $value = $placeholder['value'];
+            $html = preg_replace('/{{'. $name .'(?::.+?){0,1}}}/i', $value, $html);
         }
         return $html;
     }
@@ -77,11 +78,17 @@ class Utils {
 
         if (isset($placeholders) && count($placeholders) > 0) {
 
+            $tags = array();
+
             foreach ($placeholders[0] as $placeholder) {
 
                 preg_match('/{{([a-z_]+)/i', $placeholder, $nameMatch);
 
                 $name = preg_replace('/^{{/', '', $nameMatch[0]);
+                if (in_array($name, $tags)) {
+                    continue;
+                }
+                array_push($tags, $name);
 
                 $value = '';
                 if (stripos($placeholder, ':') > -1) {

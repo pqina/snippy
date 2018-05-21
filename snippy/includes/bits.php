@@ -375,6 +375,8 @@ class Bits_View {
                             </li>
                             <li>
                                 <p><?php \_e('The following list of placeholders can be used to access dynamic page data.', 'snippy')?></p>
+                                <pre><code>{{bit_id}}</code></pre>
+                                <pre><code>{{shortcode_id}}</code></pre>
                                 <pre><code>{{page_id}}</code></pre>
                                 <pre><code>{{page_absolute_url}}</code></pre>
                                 <pre><code>{{page_relative_url}}</code></pre>

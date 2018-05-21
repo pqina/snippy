@@ -4,7 +4,7 @@ Use Snippy to create custom shortcodes. Upload files and create HTML, CSS and Ja
 
 The instruction video below shows how to setup a JavaScript Countdown plugin on WordPress using Snippy.
 
-[![](http://tickcounterplugin.com/envato/snippy-tick-video.png)](https://www.youtube.com/watch?v=S7JjNq6feK0)
+[![](http://tickcounterplugin.com/envato/snippy-tick-video.png)](https://www.youtube.com/watch?v=JZYYJY4yoK4)
 
 You can get the Snippy plugin here.
 
