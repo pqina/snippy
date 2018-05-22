@@ -47,8 +47,6 @@ function uninstall() {
 // Get dependencies
 require_once('includes/db.php');
 require_once('includes/utils.php');
-require_once('includes/placeholders.php');
-
 
 // Only required for admin
 if ( is_admin() ) {
