@@ -124,7 +124,7 @@ class Data {
         $table_name = self::get_table_name($table);
         return $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT * FROM $table_name ORDER BY $order_by $order LIMIT %d OFFSET %d", $per_page, $paged
+                "SELECT * FROM $table_name ORDER BY $order_by $order LIMIT %d OFFSET %d", $per_page, $paged * $per_page
             ),
             ARRAY_A
         );
