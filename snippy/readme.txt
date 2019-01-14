@@ -4,7 +4,7 @@ Donate link: https://codecanyon.net/user/pqina/portfolio?ref=pqina
 Tags: shortcode, short code, build, create, javascript
 Requires at least: 4.5
 Tested up to: 5.0.0
-Stable tag: 1.3.3
+Stable tag: 1.3.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -106,6 +106,11 @@ The following list of placeholders have a special function:
 
 
 == Changelog ==
+
+= 1.3.4 =
+
+* Fixed problem where paging would not work
+
 
 = 1.3.3 =
 
