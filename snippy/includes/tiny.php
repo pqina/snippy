@@ -17,6 +17,31 @@ class Tiny {
         add_filter('mce_external_plugins', array('snippy\Tiny', 'handle_mce_plugin'));
         add_filter('mce_buttons', array('snippy\Tiny', 'handle_mce_toolbar'));
 
+        add_action( 'in_admin_footer', function() {  
+            $screen = get_current_screen();  
+            if ($screen->parent_base === 'edit') {
+                $shortcodes = Data::get_entries_all('shortcodes');
+                ?>
+                <div id="snippy--mce-shortcode-popup" style="display:none;">
+                    <ul>
+                        <?php
+                        foreach($shortcodes as $shortcode) {
+                            $name = $shortcode['name'];
+                            $bits = Data::get_bits_for_shortcode_by_name($name);
+                            $placeholders = array();
+                            foreach ($bits as $bit) {
+                                $placeholders = array_merge($placeholders, Utils::get_placeholders_from_bit($bit));
+                            }
+                            ?>
+                            <li><a data-placeholders="<?php echo htmlentities(json_encode($placeholders, ENT_QUOTES)) ?>" href="#"><?php echo $name;?></a></li>
+                            <?php
+                        }
+                        ?>
+                    </ul>
+                </div>
+                <?php
+            }
+        });
     }
 
     public static function handle_mce_plugin($plugin_array) {
@@ -25,34 +50,6 @@ class Tiny {
     }
 
     public static function handle_mce_toolbar($buttons) {
-
-        $shortcodes = Data::get_entries_all('shortcodes');
-
-        ?>
-        <div id="snippy--mce-shortcode-popup" style="display:none;">
-            <ul>
-                <?php
-                foreach($shortcodes as $shortcode) {
-
-                    $name = $shortcode['name'];
-                    $bits = Data::get_bits_for_shortcode_by_name($name);
-                    $placeholders = array();
-
-                    foreach ($bits as $bit) {
-                        $placeholders = array_merge($placeholders, Utils::get_placeholders_from_bit($bit));
-                    }
-
-                    ?>
-                    <li><a data-placeholders="<?php echo htmlentities(json_encode($placeholders, ENT_QUOTES)) ?>" href="#"><?php echo $name;?></a></li>
-                    <?php
-                }
-                ?>
-            </ul>
-        </div>
-
-        <?php
-
-
         array_push( $buttons, '|', 'snippy' );
         return $buttons;
     }

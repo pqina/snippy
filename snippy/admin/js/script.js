@@ -1,18 +1,13 @@
 var Snippy = (function(undefined){
 
 	function showLocalField() {
-
-    showNodes(document.querySelectorAll('.snippy--resource-type-local'));
-    hideNodes(document.querySelectorAll('.snippy--resource-type-remote'));
-
+		showNodes(document.querySelectorAll('.snippy--resource-type-local'));
+		hideNodes(document.querySelectorAll('.snippy--resource-type-remote'));
 	}
 
 	function showRemoteField() {
-
-    showNodes(document.querySelectorAll('.snippy--resource-type-remote'));
-    hideNodes(document.querySelectorAll('.snippy--resource-type-local'));
-
-
+		showNodes(document.querySelectorAll('.snippy--resource-type-remote'));
+		hideNodes(document.querySelectorAll('.snippy--resource-type-local'));
 	}
 
 	function showFileField(isText) {

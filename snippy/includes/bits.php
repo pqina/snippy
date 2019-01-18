@@ -128,9 +128,10 @@ class Bits_View {
                         $allowed_extensions = ['css', 'js'];
 
                         if (!in_array($uploaded_file_extension, $allowed_extensions)) {
-                            $item_valid = \__('There was an error while uploading the resource', 'snippy');
+                            $item_valid = \__('The extension is not valid, only CSS and JS files are allowed.', 'snippy');
                         }
                         else {
+                            
                             $move_result = \wp_handle_upload( $uploaded_file, array( 'test_form' => false ) );
 
                             if ( $move_result && ! isset( $move_result['error'] ) ) {
@@ -142,7 +143,7 @@ class Bits_View {
                                 $item['value'] = $path;
 
                             } else {
-                                $item_valid = \__('There was an error while uploading the resource', 'snippy');
+                                $item_valid = \__('An error was thrown while trying to upload the resource', 'snippy') . ': "' . $move_result['error'] . '"';
                             }
                         }
                     }

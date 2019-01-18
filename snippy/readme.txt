@@ -4,7 +4,7 @@ Donate link: https://codecanyon.net/user/pqina/portfolio?ref=pqina
 Tags: shortcode, short code, build, create, javascript
 Requires at least: 4.5
 Tested up to: 5.0.0
-Stable tag: 1.3.4
+Stable tag: 1.3.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -59,6 +59,8 @@ The below 3 minute YouTube video shows how you can use Snippy to turn a jQuery p
 
 Yes, you can select JS and CSS files to be added to a bit, Snippy will automatically load the files when the shortcode is used on a page.
 
+Please note that your server might prevent uploading files with a .js or .css extension. If that's the case you have to alter the server security settings to allow uploading of these files.
+
 
 = How do I define placeholders =
 
@@ -106,6 +108,11 @@ The following list of placeholders have a special function:
 
 
 == Changelog ==
+
+= 1.3.5 =
+
+* Fixed problem where snippy shortcode menu was rendered before doctype
+
 
 = 1.3.4 =
 
