@@ -4,7 +4,7 @@ Donate link: https://codecanyon.net/user/pqina/portfolio?ref=pqina
 Tags: shortcode, short code, build, create, javascript
 Requires at least: 4.5
 Tested up to: 5.0.0
-Stable tag: 1.3.5
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +98,8 @@ The following list of placeholders have a special function:
 * `{{theme}}` current theme name.
 * `{{theme_root_uri}}` theme directory URI.
 * `{{template_directory_uri}}` current theme directory URI.
+* `{{admin_url}}` current admin url.
+* `{{nonce_field:action,name}}` generate a nonce field.
 
 
 == Screenshots ==
@@ -108,6 +110,10 @@ The following list of placeholders have a special function:
 
 
 == Changelog ==
+
+= 1.4.0 =
+
+* Add `{{admin_url}}` and `{{nonce_field}}` placeholders.
 
 = 1.3.5 =
 

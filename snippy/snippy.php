@@ -3,7 +3,7 @@
 Plugin Name: Snippy
 Plugin URI: https://pqina.nl/snippy
 Description: Snippy, create your own super flexible shortcodes
-Version: 1.3.5
+Version: 1.4.0
 Author: PQINA
 Author URI: https://pqina.nl
 License: GPL2
@@ -61,7 +61,7 @@ if ( is_admin() ) {
 class Snippy {
 
     // Snippy version
-    public static $version = '1.3.5';
+    public static $version = '1.4.0';
 
     private static $_instance = null;
 
@@ -249,7 +249,12 @@ class Snippy {
         self::$_page_info['template_directory_uri'] = \get_template_directory_uri();
         self::$_page_info['date_today'] = (new \DateTime('today'))->format('Y-m-d');
         self::$_page_info['date_tomorrow'] = (new \DateTime('tomorrow'))->format('Y-m-d');
+        self::$_page_info['admin_url'] = \admin_url('admin-ajax.php');
+        self::$_page_info['nonce_field'] = 'snippy_nonce_field';
+    }
 
+    public static function snippy_nonce_field($args) {
+        return call_user_func_array('wp_nonce_field', $args);
     }
 
     private function shortcodes() {

@@ -57,7 +57,12 @@ class Utils {
 
             foreach ($atts as $key => $value) {
                 if ($key === $placeholder_name) {
-                    $placeholder_value = $value;
+                    if (\substr($value, 0, 7) ===  'snippy_') {
+                        $placeholder_value = call_user_func('snippy\\Snippy::' . $value, explode(', ', $placeholder_value));
+                    }
+                    else {
+                        $placeholder_value = $value;
+                    }
                 }
             }
 

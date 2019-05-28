@@ -384,6 +384,8 @@ class Bits_View {
                                 <pre><code>{{unique_id}}</code></pre>
                                 <pre><code>{{date_today}}</code></pre>
                                 <pre><code>{{date_tomorrow}}</code></pre>
+                                <pre><code>{{admin_url}}</code></pre>
+                                <pre><code>{{nonce_field:action,name}}</code></pre>
                             </li>
                         </ol>
 
