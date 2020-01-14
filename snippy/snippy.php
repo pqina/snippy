@@ -3,7 +3,7 @@
 Plugin Name: Snippy
 Plugin URI: https://pqina.nl/snippy
 Description: Snippy, create your own super flexible shortcodes
-Version: 1.4.0
+Version: 1.4.1
 Author: PQINA
 Author URI: https://pqina.nl
 License: GPL2
@@ -61,7 +61,7 @@ if ( is_admin() ) {
 class Snippy {
 
     // Snippy version
-    public static $version = '1.4.0';
+    public static $version = '1.4.1';
 
     private static $_instance = null;
 
