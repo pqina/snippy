@@ -80,7 +80,7 @@ var Snippy = (function(undefined){
 			tags.push(tag);
 			var value = '';
 			if (str.indexOf(':')!==-1 && tag !== 'content') {
-				value = str.match(/:(.+)}}$/)[0].substr(1).replace(/}}$/,'');
+				value = str.match(/:(.+)}}$/)[0].slice(1).replace(/}}$/,'');
 			}
 			return '<li><span class="snippy--bit-placeholder-name">' + tag + '</span><span class="snippy--bit-placeholder-default">' + value + '</span></li>';
 		}).filter(function(item){ return item !== null }).join('');
